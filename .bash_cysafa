@@ -1,0 +1,8 @@
+###############################################################################
+## Environment for the ODSC to work on OSS used in CySAFA
+## John McParland
+## Th 20 Oct 2016
+###############################################################################
+
+export KNOX_UBUNTU=knoxubuntu.ukwest.cloudapp.azure.com
+
