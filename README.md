@@ -14,7 +14,8 @@
 ### Apache Knox
  1. Read the [Apache Knox Contribution Process](https://cwiki.apache.org/confluence/display/KNOX/Contribution+Process) particularly the [GitHub Workflow](https://cwiki.apache.org/confluence/display/KNOX/Contribution+Process#ContributionProcess-GithubWorkflow).
  2. Setup a CGI-only [GitHub](https://github.com) account, and generate add an [SSH Key](https://help.github.com/articles/generating-an-ssh-key/).
- 3. Clone [John's fork](https://github.com/mcparlandjcgi/knox): `git clone git@github.com:mcparlandjcgi/knox.git`
+ 3. Clone [Apache Knox](git://git.apache.org/knox.git/): `git clone git://git.apache.org/knox.git`
+ 4. Add a remote for [John's fork](https://github.com/mcparlandjcgi/knox): `git remote add github https://github.com/mcparlandjcgi/knox.git`
  4. [Branch by feature/ticket](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
 
 ---
