@@ -24,8 +24,8 @@ fi
 
 # Ensure our new file gets included in the environment
 echo "" >> ${HOME}/.bash_aliases
-echo "CySAFA/Knox Additions" >> ${HOME}/.bash_aliases
-echo "#####################" >> ${HOME}/.bash_aliases
+echo "# CySAFA/Knox Additions" >> ${HOME}/.bash_aliases
+echo "#######################" >> ${HOME}/.bash_aliases
 echo 'if [[ -f ${HOME}/.bash_cysafa ]];then' >> ${HOME}/.bash_aliases
 echo '    . ${HOME}/.bash_cysafa' >> ${HOME}/.bash_aliases
 echo "fi" >> ${HOME}/.bash_aliases

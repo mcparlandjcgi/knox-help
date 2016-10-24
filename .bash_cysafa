@@ -5,4 +5,5 @@
 ###############################################################################
 
 export KNOX_UBUNTU=knoxubuntu.ukwest.cloudapp.azure.com
+export KNOX_HDP=hdp24sandbox.ukwest.cloudapp.azure.com
 
