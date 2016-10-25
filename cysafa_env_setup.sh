@@ -32,3 +32,14 @@ echo "fi" >> ${HOME}/.bash_aliases
 
 . ${HOME}/.bash_cysafa
 
+# Checkout git repos
+cd ${HOME}
+if [[ ! -d git ]];themn
+    mkdir git
+fi
+
+cd git
+git clone git@github.com:mcparlandjcgi/knox.git
+git remote add upstream git://git.apache.org/knox.git
+git remote -v 
+
