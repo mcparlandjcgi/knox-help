@@ -34,12 +34,14 @@ echo "fi" >> ${HOME}/.bash_aliases
 
 # Checkout git repos
 cd ${HOME}
-if [[ ! -d git ]];themn
+if [[ ! -d git ]];then
     mkdir git
 fi
 
 cd git
 git clone git@github.com:mcparlandjcgi/knox.git
+cd knox
 git remote add upstream git://git.apache.org/knox.git
 git remote -v 
+cd ${ODSC_KNOX_LOCATION}
 
