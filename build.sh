@@ -15,7 +15,7 @@ printHelp() {
     echo -e "\t-i\tskip integration tests"
     echo -e "\t-f\tignore test failures"
     echo -e "\t-m\tincrease memory"
-    echo -e "\t-p\tincrease permgen"
+    echo -e "\t-m\tdump memory on crash dump"
     echo -e "\t-d\tdebug"
     echo -e "\t-w\tcheck for warnings in the build"
     echo -e "\t-e\tignore test errors"
@@ -36,8 +36,8 @@ while getopts ":htimpdferg:" opt; do
         m)
             MAVEN_OPTS="${MAVEN_OPTS} -Xms1024m -Xmx2048m"
             ;;
-        p)
-            MAVEN_OPTS="${MAVEN_OPTS} -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError"
+        c)
+            MAVEN_OPTS="${MAVEN_OPTS} -XX:+HeapDumpOnOutOfMemoryError"
             ;;
         d)
             MAVEN_ARGS="${MAVEN_ARGS} --debug"
@@ -74,7 +74,7 @@ echo "MAVEN_OPTS = ${MAVEN_OPTS}"
 echo "MAVEN_ARGS = ${MAVEN_ARGS}"
 echo "MAVEN_GOALS = ${MAVEN_GOALS}"
 
-LOGFILE=build.log
+LOGFILE=${HOME}/knox_build.log
 if [[ -f ${LOGFILE} ]];then
     rm ${LOGFILE}
 fi
@@ -114,4 +114,9 @@ echo "========================"
 egrep "Errors: [1-9]" ${LOGFILE}
 egrep -C 5 "Tests in error:" ${LOGFILE}
 echo ""
+
+echo "Log File"
+echo "========"
+echo "Log File: ${LOGFILE}"
+fi
 
