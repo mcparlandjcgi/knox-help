@@ -102,7 +102,8 @@ if [[ ! -z ${CHECK_FOR_WARNS} ]];then
     echo "==================="
     grep WARN ${LOGFILE}
     echo ""
-fi 
+fi
+
 echo "Checking for Test Failures"
 echo "=========================="
 egrep "Failures: [1-9]" ${LOGFILE}
@@ -118,5 +119,4 @@ echo ""
 echo "Log File"
 echo "========"
 echo "Log File: ${LOGFILE}"
-fi
 
