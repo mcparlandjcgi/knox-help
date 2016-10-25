@@ -7,7 +7,6 @@
 ##  increase memory
 ##  increase permgen size
 ##  dump memory on crash dump
-##  skip rat checks
 ## John McParland
 ## M 17 Oct 2016
 ###############################################################################
@@ -21,14 +20,15 @@ fi
 # Allow heapdumps from Java
 ulimit -c unlimited
 
+# Remove these files which tend to cause the maven-rat-plugin to die
+find . -type f -name 'hs_err_pid*.log' -exec rm {} \;
+find . -type f -name build.log -exec rm {} \;
+find . -type f -name core -exec rm {} \;
+
 # -t: skip tests
 # -i: skip integration tests
 # -m: increase memory
 # -p: increase permgen size
 # -p: dump memory on crash dump
-# -r: skip rat checks
-${ODSC_KNOX_LOCATION}/build.sh -t -i -m -p -r
-
-
-#mvn -Ppackage install
+${ODSC_KNOX_LOCATION}/build.sh -t -i -m -p
 
