@@ -19,13 +19,13 @@ printHelp() {
     echo -e "\t-d\tdebug"
     echo -e "\t-w\tcheck for warnings in the build"
     echo -e "\t-e\tignore test errors"
-    echo -e "\t-r\tignore rat (license) checks"
+    echo e
     echo -e "\t-g <goals>\t the goals to execute"
     echo ""
     return 0
 }
 
-while getopts ":htimpdferg:" opt; do
+while getopts ":htimpdferg:P:" opt; do
     case $opt in
         t)
             MAVEN_ARGS="${MAVEN_ARGS} -DskipTests=true"
@@ -52,8 +52,8 @@ while getopts ":htimpdferg:" opt; do
         e)
             MAVEN_ARGS="${MAVEN_ARGS} -Dmaven.test.error.ignore=true"
             ;;
-        r)
-            MAVEN_ARGS="${MAVEN_ARGS} -Drat.skip=true"
+        P)
+            MAVEN_ARGS="${MAVEN_ARGS} -P${OPTARG}"
             ;;
         h)
             printHelp

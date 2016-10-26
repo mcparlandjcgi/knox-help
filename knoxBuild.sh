@@ -3,8 +3,8 @@
 ## Script to build Apache Knox on the Command Line
 ## Uses build.sh with options to
 ##  increase memory
-##  increase permgen size
 ##  dump memory on crash dump
+##  use a profile (optional)
 ## John McParland
 ## M 17 Oct 2016
 ###############################################################################
@@ -13,6 +13,11 @@ if [[ -f ${HOME}/.bash_cysafa ]];then
     . ${HOME}/.bash_cysafa
 else 
    echo "WARNING: No ${HOME}/.bash_cysafa file"
+fi
+
+# Optionally, use a profile
+if [[ 1 -eq ${#} ]];then
+   PROFILE="-P ${1}"
 fi
 
 # Allow heapdumps from Java
@@ -25,5 +30,6 @@ find . -type f -name core -exec rm {} \;
 
 # -m: increase memory
 # -c: dump memory on crash dump
-${ODSC_KNOX_LOCATION}/build.sh -m -c
+# -P: use a profile
+${ODSC_KNOX_LOCATION}/build.sh -m -c -g"clean install" ${PROFILE}
 
