@@ -1,6 +1,8 @@
 # Deployment
 
 ## Get a Package to the Server
+As yourself on laptop.
+
  1. Build the knox repo: `knoxBuild.sh package`
  2. `export KNOX_VERSION=<<knoxversion>>`
  3. Copy tarball to HDP server:
@@ -9,52 +11,35 @@
  4. ssh into the server
 
 ## Stop Knox and LDAP
-  1. `sudo su`
-  1. `su -l knox`
+As `knox` on HDP-sandbox.
 
-`~mcparlandj/knoxStop.sh` or....
-
-  1. `/usr/hdp/current/knox-server/bin/gateway.sh stop`
-  1. `/usr/hdp/current/knox-server/bin/gateway.sh clean`
-  1. `/usr/hdp/current/knox-server/bin/ldap.sh stop`
-  1. `/usr/hdp/current/knox-server/bin/ldap.sh clean`
-
-  1. `exit` (back to root)
+ * `~mcparlandj/knoxStop.sh`
 
 ## Upgrade Knox To A New Version
-You need to follow [Upgrade the Knox Gateway](https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.0/bk_upgrading_hdp_manually/content/access_subtab_2_3.html) which is broken down below.
+As `root` on HDP-sandbox.
 
- 1. `export KNOX_VERSION=<<knoxversion>>`
- 1. `mkdir -p /usr/hdp/${KNOX_VERSION}`
- 1. `hdp-select set knox-server ${KNOX_VERSION}`
- 1. `cp /home/${SUDO_USER}/knox-${KNOX_VERSION}.tar.gz /usr/hdp/${KNOX_VERSION}`
- 1. `cd /usr/hdp/${KNOX_VERSION}`
- 1. `tar xvzf knox-${KNOX_VERSION}.tar.gz`
- 1. `mv knox-${KNOX_VERSION} knox`
- 1. `chmod -R 755 knox`
- 1. `chown -R knox:knox knoxr`
- 1. Confirm the version changed: `ls -ltra /usr/hdp/current/knox-server`
- 1. `su -l knox`
- 1. `export GATEWAY_HOME=/usr/hdp/current/knox-server`
- 1. `cd $GATEWAY_HOME`
+ 1. `~mcparlandj/knoxUpgrade.sh <<knoxversion>>`
 
 ## Modify the sandbox Topology
-**TODO** Verify if this is needed
- 1. `vi conf/topology/sandbox.xml`
- 1. Replace all URLs `%s/localhost/sandbox\\.hortonworks\\.com/g`
- 1. `:wq!`
+As `root` on HDP-sandbox.
 
-## Start LDAP and Create Master Password
+  1. `vi conf/topology/sandbox.xml`
+  1. Replace all URLs `:%s/localhost/sandbox\.hortonworks\.com/g`
+  1. `:wq!`
 
+## Start LDAP, Create Master Password, Start Knox
+As `knox` on HDP-sandbox
+
+ 1. `cd /usr/hdp/current/knox-server`
  1. `bin/ldap.sh start`
  1. `bin/knoxcli.sh create-master` **REMEMBER THIS PASSWORD**
-
-## Start Knox
- 1. `bin\gateway.sh start`
+ 1. `bin/gateway.sh start`
 
 ## Verify Knox Started Up
- 1. `curl -u guest:guest-password -X GET 'https://localhost:8443/gateway/sandbox/webhdfs/v1/?op=LISTSTATUS' | python -m json.tool`
-   * Or `knoxCheck.sh`
+As yourself on laptop.
+
+ 1. `knoxCheck.sh`
+ 1. You should see something similar to the following output
 
 ```
 % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current

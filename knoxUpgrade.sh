@@ -46,13 +46,3 @@ hdp-select set knox-server ${KNOX_VERSION}
 echo "[INFO] Check this is the version you expect"
 ls -ltra /usr/hdp/current/knox-server
 
-shopt -s nocasematch
-echo -n "Is the right version linked to? [y/n]: "
-read CORRECT_VERSION
-if [[ "n" == "${CORRECT_VERSION}" ]];then
-   shopt -s nocasematch 
-   echo "[ERROR] Not the correct version"
-   exit 0
-fi
-shopt -u nocasematch
-
