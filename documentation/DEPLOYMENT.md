@@ -30,12 +30,200 @@ You need to follow [Upgrade the Knox Gateway](https://docs.hortonworks.com/HDPDo
  13. `export GATEWAY_HOME=/usr/hdp/current/knox-server`
  14. `cd $GATEWAY_HOME`
 
-## If First Installation
+## Modify the sandbox Topology
+**TODO** Verify if this is needed
+ 1. `vi conf/topology/sandbox.xml`
+ 2. Replace all URLs `%s/localhost/sandbox\\.hortonworks\\.com/g`
+ 3. `:wq!`
+
+## Start LDAP and Create Master Password
 
  1. `bin/ldap.sh start`
  2. `bin/knoxcli.sh create-master` **REMEMBER THIS PASSWORD**
 
 ## Start Knox
  1. `bin\gateway.sh start`
+
+## Verify Knox Started Up
+ 1. `curl -u guest:guest-password -X GET 'https://localhost:8443/gateway/sandbox/webhdfs/v1/?op=LISTSTATUS' | python -m json.tool`
+   * Or `knoxCheck.sh`
+   
+```
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                               Dload  Upload   Total   Spent    Left  Speed
+103  2575  103  2575    0     0   7131      0 --:--:-- --:--:-- --:--:-- 20934
+{
+  "FileStatuses": {
+      "FileStatus": [
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 1,
+              "fileId": 16396,
+              "group": "hadoop",
+              "length": 0,
+              "modificationTime": 1456785157015,
+              "owner": "yarn",
+              "pathSuffix": "app-logs",
+              "permission": "777",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 4,
+              "fileId": 16392,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456769061888,
+              "owner": "hdfs",
+              "pathSuffix": "apps",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 2,
+              "fileId": 16389,
+              "group": "hadoop",
+              "length": 0,
+              "modificationTime": 1456768686744,
+              "owner": "yarn",
+              "pathSuffix": "ats",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 1,
+              "fileId": 17231,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456770378196,
+              "owner": "hdfs",
+              "pathSuffix": "demo",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 1,
+              "fileId": 16403,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456768694221,
+              "owner": "hdfs",
+              "pathSuffix": "hdp",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 1,
+              "fileId": 16399,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456768693055,
+              "owner": "mapred",
+              "pathSuffix": "mapred",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 2,
+              "fileId": 16401,
+              "group": "hadoop",
+              "length": 0,
+              "modificationTime": 1456768702875,
+              "owner": "mapred",
+              "pathSuffix": "mr-history",
+              "permission": "777",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 1,
+              "fileId": 17149,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456769972033,
+              "owner": "hdfs",
+              "pathSuffix": "ranger",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 1,
+              "fileId": 16441,
+              "group": "hadoop",
+              "length": 0,
+              "modificationTime": 1478000470936,
+              "owner": "spark",
+              "pathSuffix": "spark-history",
+              "permission": "777",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 2,
+              "fileId": 16386,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456769396351,
+              "owner": "hdfs",
+              "pathSuffix": "tmp",
+              "permission": "777",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          },
+          {
+              "accessTime": 0,
+              "blockSize": 0,
+              "childrenNum": 10,
+              "fileId": 16387,
+              "group": "hdfs",
+              "length": 0,
+              "modificationTime": 1456785153235,
+              "owner": "hdfs",
+              "pathSuffix": "user",
+              "permission": "755",
+              "replication": 0,
+              "storagePolicy": 0,
+              "type": "DIRECTORY"
+          }
+      ]
+  }
+}
+
+```
 
 ----
