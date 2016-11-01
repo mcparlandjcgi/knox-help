@@ -19,7 +19,7 @@
   1. `/usr/hdp/current/knox-server/bin/ldap.sh stop`
   1. `/usr/hdp/current/knox-server/bin/ldap.sh clean`
 
-  1. Exit (back to root)
+  1. `exit` (back to root)
 
 ## Upgrade Knox To A New Version
 You need to follow [Upgrade the Knox Gateway](https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.0/bk_upgrading_hdp_manually/content/access_subtab_2_3.html) which is broken down below.
@@ -30,9 +30,9 @@ You need to follow [Upgrade the Knox Gateway](https://docs.hortonworks.com/HDPDo
  1. `cp /home/${SUDO_USER}/knox-${KNOX_VERSION}.tar.gz /usr/hdp/${KNOX_VERSION}`
  1. `cd /usr/hdp/${KNOX_VERSION}`
  1. `tar xvzf knox-${KNOX_VERSION}.tar.gz`
- 1. `mv knox-${KNOX_VERSION} knox-server`
- 1. `chmod -R 755 knox-server`
- 1. `chown -R knox:knox knox-server`
+ 1. `mv knox-${KNOX_VERSION} knox`
+ 1. `chmod -R 755 knox`
+ 1. `chown -R knox:knox knoxr`
  1. Confirm the version changed: `ls -ltra /usr/hdp/current/knox-server`
  1. `su -l knox`
  1. `export GATEWAY_HOME=/usr/hdp/current/knox-server`
