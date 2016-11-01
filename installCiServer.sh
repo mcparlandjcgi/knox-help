@@ -24,3 +24,17 @@ sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sour
 sudo apt-get update
 sudo apt-get install jenkins
 
+## MySQL
+sudo apt-get install mysql-server
+mysql -u root
+
+# On MySQL Command Line
+#create user 'sonarqube'@'localhost' identified by -- 'xxx';
+#create database sonarqube default character set utf8 default collate utf8_general_ci;
+#grant all on sonarqube.* to 'sonarqube'@'localhost';
+
+# SonarQube
+echo "deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/" >> /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get install sonar
+
