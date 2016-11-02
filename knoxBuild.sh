@@ -9,10 +9,10 @@
 ## M 17 Oct 2016
 ###############################################################################
 
-if [[ -f ${HOME}/.bash_cysafa ]];then
-    . ${HOME}/.bash_cysafa
+if [[ -f ${HOME}/.bash_knox ]];then
+    . ${HOME}/.bash_knox
 else 
-   echo "WARNING: No ${HOME}/.bash_cysafa file"
+   echo "WARNING: No ${HOME}/.bash_knox file"
 fi
 
 # Optionally, use a profile
@@ -31,5 +31,5 @@ find . -type f -name core -exec rm {} \;
 # -m: increase memory
 # -c: dump memory on crash dump
 # -P: use a profile
-${ODSC_KNOX_LOCATION}/build.sh -m -c -g"clean install" ${PROFILE}
+${KNOX_HELP_LOCATION}/build.sh -m -c -g"clean install" ${PROFILE}
 

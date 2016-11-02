@@ -1,4 +1,4 @@
-# ODSC Knox Contributing Guide
+# Knox Help Contributing Guide
 
 There's two areas of Contribution
 
@@ -11,12 +11,12 @@ There's two areas of Contribution
 
 ### Apache Knox
  1. Read the [Apache Knox Contribution Process](https://cwiki.apache.org/confluence/display/KNOX/Contribution+Process)
- 2. Setup a CGI-only [GitHub](https://github.com) account, and generate add an [SSH Key](https://help.github.com/articles/generating-an-ssh-key/).
+ 2. Setup a [GitHub](https://github.com) account, and generate add an [SSH Key](https://help.github.com/articles/generating-an-ssh-key/).
 
 ### Get the Code
- 1. `git clone ssh://git@gitlab.cgi-odsc.com:57476/cysafa/odsc_knox.git`
+ 1. `git clone git@github.com:mcparlandjcgi/knox-help.git`
  2. `chmod u+x *.sh`
- 3. `./cysafa_env_setup.sh` - **NOTE:** This will
+ 3. `./knox_env_setup.sh` - **NOTE:** This will
    1. Clone [John's fork](https://github.com/mcparlandjcgi/knox) setting it as  `origin`
    2. Clone [Apache Knox Official](git@github.com:apache/knox.git) setting it as `upstream`
 
@@ -41,7 +41,7 @@ git merge upstream/master
 
 ### Get the Code/Docs
 If not already, get the code/documents.
-1. `git clone ssh://git@gitlab.cgi-odsc.com:57476/cysafa/odsc_knox.git`
+1. `git clone git@github.com:mcparlandjcgi/knox-help.git`
 2. `chmod u+x *.sh`
 
 ### Modify the Code/Docs
