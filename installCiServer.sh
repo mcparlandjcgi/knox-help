@@ -1,6 +1,7 @@
 #!/bin/bash
 ###############################################################################
 ## Install the necessary software on the CI Server
+## Written to setup a simple Jenkins/SonarQube on an Ubuntu box while Apache Knox master doesn't build on Jenkins
 ## John McParland
 ## Th 27 Oct 2016
 ###############################################################################
@@ -37,4 +38,3 @@ mysql -u root
 echo "deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/" >> /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get install sonar
-

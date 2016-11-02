@@ -4,8 +4,11 @@ This project provides
 
  * Scripts/Shell Environment
  * Documentation
+ * [My Knox Blog](blog)
 
  To aid the development of Apache Knox.
+
+---
 
 ## Getting Started
 
@@ -21,7 +24,14 @@ This project provides
 
 ### Read the Docs
  1. Read the [Contribution Guide](CONTRIBUTING.md)
- 1. Browse the [documentation](documentation)
+ 1. Read how to [Deploy Knox to HDP 2.4](documentation/DEPLOYMENT.md)
+ 1. Read on [Script Usage](documentation/SCRIPT_USAGE.md)
 
 ---
 
+## Blog
+ * [All Articles](blog/ARTICLES.md)
+ * [Building Knox](blog/BUILDING_KNOX.md)
+ * [Deploying to HDP 2.4](blog/DEPLOYING_TO_HDP_2.4.md)
+
+---
