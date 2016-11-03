@@ -16,7 +16,8 @@ As yourself on the HDP sandbox.
  1. `cd ~/git`
    1. `git clone git@github.com:mcparlandjcgi/knox-help.git` OR
    1. `cd knox-help; git pull origin master`
-
+ 2. `chmod -R 755 knox-help`
+ 
 ## Stop Knox and LDAP
 As `knox` on HDP-sandbox.
 
@@ -30,6 +31,7 @@ As `root` on HDP-sandbox.
 ## Modify the sandbox Topology
 As `root` on HDP-sandbox.
 
+  1. `cd /usr/hdp/current/knox-server`
   1. `vi conf/topology/sandbox.xml`
   1. Replace all URLs `:%s/localhost/sandbox\.hortonworks\.com/g`
   1. `:wq!`
