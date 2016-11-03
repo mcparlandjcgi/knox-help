@@ -10,15 +10,22 @@ As yourself on laptop.
  `scp target/${KNOX_VERSION}/knox-${KNOX_VERSION}.tar.gz ${KNOX_HDP}:/home/${USER}/knox-${KNOX_VERSION}.tar.gz`
  4. ssh into the server
 
+## Clone this Repo (or update it) on HDP sandbox
+As yourself on the HDP sandbox.
+
+ 1. `cd ~/git`
+   1. `git clone git@github.com:mcparlandjcgi/knox-help.git` OR
+   1. `cd knox-help; git pull origin master`
+
 ## Stop Knox and LDAP
 As `knox` on HDP-sandbox.
 
- * `~mcparlandj/knoxStop.sh`
+ * `~${SUDO_USER}/git/knox-help/knoxStop.sh`
 
 ## Upgrade Knox To A New Version
 As `root` on HDP-sandbox.
 
- 1. `~mcparlandj/knoxUpgrade.sh <<knoxversion>>`
+ 1. `~${SUDO_USER}/git/knox-help/knoxUpgrade.sh <<knoxversion>>`
 
 ## Modify the sandbox Topology
 As `root` on HDP-sandbox.
