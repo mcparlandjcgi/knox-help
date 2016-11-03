@@ -20,12 +20,12 @@ As yourself on the HDP sandbox.
 ## Stop Knox and LDAP
 As `knox` on HDP-sandbox.
 
- * `~${SUDO_USER}/git/knox-help/knoxStop.sh`
+ * `/home/${SUDO_USER}/git/knox-help/knoxStop.sh`
 
 ## Upgrade Knox To A New Version
 As `root` on HDP-sandbox.
 
- 1. `~${SUDO_USER}/git/knox-help/knoxUpgrade.sh <<knoxversion>>`
+ 1. `/home/${SUDO_USER}/git/knox-help/knoxUpgrade.sh <<knoxversion>>`
 
 ## Modify the sandbox Topology
 As `root` on HDP-sandbox.
