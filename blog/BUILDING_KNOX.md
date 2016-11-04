@@ -29,7 +29,7 @@ with assembly file: /home/mcparlandj/git/knox/gateway-demo-ldap-launcher/target/
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-assembly-plugin:2.4:single (server-launcher) on project gateway-demo-ldap-launcher: Execution server-launcher of goal org.apache.maven.plugins:maven-assembly-plugin:2.4:single failed: MALFORMED -> [Help 1]
 ```
 
-After asking on the [Knox Dev Mail list](http://mail-archives.apache.org/mod_mbox/knox-dev/) I found that the normal way of building Knox is to use the `-Prelease` or `-Ppackage` profiles
+After asking on the [Knox Dev Mail list](http://mail-archives.apache.org/mod_mbox/knox-dev/201610.mbox/%3c79A7C7FC45E0B245A3B966C7BB8D146B16BA09@SE-EX020.groupinfra.com%3e) I found that the normal way of building Knox is to use the `-Prelease` or `-Ppackage` profiles
 along with the `clean install` goals.  
 
 It appears there's a clash with the Maven `package` goal and how the `maven-assembly-plugin` is configured for certain modules in Knox.
