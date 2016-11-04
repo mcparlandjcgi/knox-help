@@ -6,7 +6,7 @@ This project provides
  * Documentation
  * [My Knox Blog](/blog/ARTICLES.md)
 
- To aid the development of Apache Knox.
+To aid the development of Apache Knox.
 
 ---
 
