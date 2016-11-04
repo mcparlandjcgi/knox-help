@@ -40,9 +40,9 @@ This early experience of Knox served as the inspiration for the github repositor
  1. An opportunity to write a little about what I'd found, and help others
 
 The earlies stages were creating
- * [build.sh](build.sh) - simple maven wrapper (to be fair, I almost always use this)
- * [knoxBuild.sh](knoxBuild.sh) - executing exact command line required for Knox build
- * [knoxEnvSetup.sh](knoxEnvSetup.sh) - setup of a simple environment on my laptop.
+ * [build.sh](/build.sh) - simple maven wrapper (to be fair, I almost always use this)
+ * [knoxBuild.sh](/knoxBuild.sh) - executing exact command line required for Knox build
+ * [knoxEnvSetup.sh](/knoxEnvSetup.sh) - setup of a simple environment on my laptop.
 
 Hopefully it'll be of some help.
 
