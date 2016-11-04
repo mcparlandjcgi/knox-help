@@ -4,7 +4,7 @@ This project provides
 
  * Scripts/Shell Environment
  * Documentation
- * [My Knox Blog](blog)
+ * [My Knox Blog](/blog/ARTICLES.md)
 
  To aid the development of Apache Knox.
 
@@ -31,7 +31,5 @@ This project provides
 
 ## Blog
  * [All Articles](blog/ARTICLES.md)
- * [Building Knox](blog/BUILDING_KNOX.md)
- * [Deploying to HDP 2.4](blog/DEPLOYING_TO_HDP_2.4.md)
 
 ---
