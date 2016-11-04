@@ -15,7 +15,7 @@ To aid the development of Apache Knox.
 ### Get the Code
  1. `git clone git@github.com:mcparlandjcgi/knox-help.git`
  2. `chmod u+x *.sh`
- 3. `./knox_env_setup.sh` - **NOTE:** This will
+ 3. `./knoxEnvSetup.sh` - **NOTE:** This will
    1. Clone [John's fork](https://github.com/mcparlandjcgi/knox) setting it as  `origin`
    2. Clone [Apache Knox Official](git@github.com:apache/knox.git) setting it as `upstream`
    3. Create an environment for developing Apache Knox by
