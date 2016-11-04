@@ -41,12 +41,13 @@ git merge upstream/master
 
 ### Get the Code/Docs
 If not already, get the code/documents.
-1. `git clone git@github.com:mcparlandjcgi/knox-help.git`
-2. `chmod u+x *.sh`
+
+ 1. `git clone git@github.com:mcparlandjcgi/knox-help.git`
+ 2. `chmod u+x *.sh`
 
 ### Modify the Code/Docs
  1. Create a new issue on GitLab.
  2. Branch [Branch by feature/ticket](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
-  3. Get a pull review.
+ 3. Get a pull review.
 
 ---
