@@ -54,5 +54,13 @@ Expected to be used after [knoxUpgrade.sh](knoxUpgrade.sh).
 Merges the upstream (official Apache Knox repository) into the origin (my fork).
 
  * See [mergeUpstreamToOrigin.sh](mergeUpstreamToOrigin.sh)
- 
+
+## Reset Origin To Upstream
+Resets the status of `origin` so that it is an exact replica of `upstream`.
+
+The main use of this is after a patch is applied to `upstream` we can set `origin`
+to have the same commits as `upstream` (otherwise it always appears to be ahead).
+
+ * See [resetOriginToUpstream.sh](resetOriginToUpstream.sh)
+
 ---
