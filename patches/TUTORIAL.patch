@@ -1,0 +1,170 @@
+From 520ecae784e65ff7ac0e6234e01b323e2eaaf2be Mon Sep 17 00:00:00 2001
+From: mcparlandj <john.mcparland@cgi.com>
+Date: Mon, 14 Nov 2016 14:48:16 +0000
+Subject: [PATCH] TUTORIAL: doing the openweather map adding a service tutorial
+
+---
+ .../OPENWEATHERMAP_APIKEY.txt                      |  1 +
+ gateway-demo-openweathermap/add_to_topology.xml    |  7 ++
+ gateway-demo-openweathermap/knoxCheckWeather.sh    | 78 ++++++++++++++++++++++
+ gateway-demo-openweathermap/knoxWeatherQuickRun.sh |  4 ++
+ gateway-demo-openweathermap/rewrite.xml            | 11 +++
+ gateway-demo-openweathermap/service.xml            | 10 +++
+ 6 files changed, 111 insertions(+)
+ create mode 100644 gateway-demo-openweathermap/OPENWEATHERMAP_APIKEY.txt
+ create mode 100644 gateway-demo-openweathermap/add_to_topology.xml
+ create mode 100755 gateway-demo-openweathermap/knoxCheckWeather.sh
+ create mode 100755 gateway-demo-openweathermap/knoxWeatherQuickRun.sh
+ create mode 100644 gateway-demo-openweathermap/rewrite.xml
+ create mode 100644 gateway-demo-openweathermap/service.xml
+
+diff --git a/gateway-demo-openweathermap/OPENWEATHERMAP_APIKEY.txt b/gateway-demo-openweathermap/OPENWEATHERMAP_APIKEY.txt
+new file mode 100644
+index 0000000..5f2d075
+--- /dev/null
++++ b/gateway-demo-openweathermap/OPENWEATHERMAP_APIKEY.txt
+@@ -0,0 +1 @@
++2f1c2ad0939b570828ebe3861c6e990d
+diff --git a/gateway-demo-openweathermap/add_to_topology.xml b/gateway-demo-openweathermap/add_to_topology.xml
+new file mode 100644
+index 0000000..1209675
+--- /dev/null
++++ b/gateway-demo-openweathermap/add_to_topology.xml
+@@ -0,0 +1,7 @@
++<!-- Add this to the appropriate topology file -->
++<!-- In HDP 2.4 sandbox, this is sandbox.xml -->
++  <service>
++    <role>WEATHER</role>
++    <url>http://api.openweathermap.org:80</url>
++  </service>
++
+diff --git a/gateway-demo-openweathermap/knoxCheckWeather.sh b/gateway-demo-openweathermap/knoxCheckWeather.sh
+new file mode 100755
+index 0000000..4d4b23d
+--- /dev/null
++++ b/gateway-demo-openweathermap/knoxCheckWeather.sh
+@@ -0,0 +1,78 @@
++#!/bin/bash
++###############################################################################
++## Checks Knox Open Weather Map API
++## John McParland
++## M 14 Nov 2016
++###############################################################################
++
++## Functions
++###############################################################################
++printHelp() {
++    echo "knoxCheckWeather.sh -a <api key> [<option(s)>]"
++    echo ""
++    echo -e "\t-a <api key>\tyour open weather map API key"
++    echo "options include" 
++    echo -e "\t-h\tprint this help information"
++    echo -e "\t-s <hdp server>\tHDP 2.4 server dns/ip"
++    echo -e "\t-t <topology>\tthe name of the knox topology"
++    echo -e "\t-u <user>\tthe knox user"
++    echo -e "\t-p <knox password>\tthe knox users password"
++}
++
++## Variables
++###############################################################################
++USER=guest
++PASS=guest-password
++
++HDP_SERVER=localhost
++TOPOLOGY=sandbox
++
++SERVICE=weather
++SERVICE_RESOURCE=data/2.5/weather
++
++## Get Input
++###############################################################################
++while getopts ":hs:a:t:u:p:" opt; do
++    case $opt in
++        h)
++            printHelp
++            exit 0
++            ;;
++        s) 
++            HDP_SERVER=${OPTARG}
++            ;;
++        a)
++            API_KEY=${OPTARG}
++            ;;
++        t)
++            TOPOLOGY=${OPTARG}
++            ;;
++        u)
++            USER=${OPTARG}
++            ;;
++        p)
++            PASS=${OPTARG}
++            ;;
++        ?)
++            printHelp
++            exit 0
++            ;;
++    esac
++done
++
++## Check Input
++###############################################################################
++if [[ -z ${API_KEY} ]];then
++    echo "[ERROR] - Sorry you must provide an API key (-a)"
++    printHelp
++    exit 0
++fi
++
++## Do It!
++###############################################################################
++
++HDP_URL="https://${HDP_SERVER}:8443/gateway/${TOPOLOGY}/${SERVICE}/${SERVICE_RESOURCE}?zip=95054,us&appid=${API_KEY}"
++
++curl -ku ${USER}:${PASS} ${HDP_URL} | python -m json.tool
++exit ${?}
++
+diff --git a/gateway-demo-openweathermap/knoxWeatherQuickRun.sh b/gateway-demo-openweathermap/knoxWeatherQuickRun.sh
+new file mode 100755
+index 0000000..0c0497b
+--- /dev/null
++++ b/gateway-demo-openweathermap/knoxWeatherQuickRun.sh
+@@ -0,0 +1,4 @@
++#!/bin/bash
++
++./knoxCheckWeather.sh -s hdp24sandbox.ukwest.cloudapp.azure.com -a 2f1c2ad0939b570828ebe3861c6e990d
++
+diff --git a/gateway-demo-openweathermap/rewrite.xml b/gateway-demo-openweathermap/rewrite.xml
+new file mode 100644
+index 0000000..867e054
+--- /dev/null
++++ b/gateway-demo-openweathermap/rewrite.xml
+@@ -0,0 +1,11 @@
++<!-- Install to 
++ <GATEWAY_HOME>/data/services/weather/0.0.1/rewrite.xml
++-->
++
++<rules>
++  <rule dir="IN" name="WEATHER/weather/inbound" pattern="*://*:*/**/weather/{path=**}?{**}">
++    <rewrite template="{$serviceUrl[WEATHER]}/{path=**}?{**}"/>
++  </rule>
++</rules>
++
++
+diff --git a/gateway-demo-openweathermap/service.xml b/gateway-demo-openweathermap/service.xml
+new file mode 100644
+index 0000000..df97216
+--- /dev/null
++++ b/gateway-demo-openweathermap/service.xml
+@@ -0,0 +1,10 @@
++<!-- Install to
++ <GATEWAY_HOME>/data/services/weather/0.0.1/service.xml
++-->
++
++<service role="WEATHER" name="weather" version="0.0.1">
++  <routes>
++    <route path="/weather/**"/>
++  </routes>
++</service>
++
+-- 
+2.7.4
+
