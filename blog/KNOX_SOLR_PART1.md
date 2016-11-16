@@ -1,4 +1,4 @@
-# Supporting Solr In Knox
+# Supporting Solr In Knox - Part 1: Installation, Configuration, Ingestion
 I recently picked up [KNOX-528](https://issues.apache.org/jira/browse/KNOX-528) to add Solr support to Apache Knox.
 
 I focussed on
@@ -66,9 +66,7 @@ bin/solr start -c \
   * NOTE: ```-z``` points to Zookeeper on the sandbox.
   * NOTE: ```solr.hdfs.home``` is set to what we put in the ```directoryFactory``` earlier.
   * NOTE: ```-m``` avoids this error
-  ```
 
-  ```
 ## Create a Collection
  * Create a collection with the knox integration configset.
 ```
@@ -78,3 +76,22 @@ bin/solr create -c KnoxIntegrationConfig \
  -s 2 \
  -rf 2
 ```
+
+## Ingesting data
+ * There's clearly better ways to do this (e.g. via HDFS, which I think is the end-goal) but for now, I've used the [post tool](https://cwiki.apache.org/confluence/display/solr/Post+Tool).
+ * First I moved over some example datasets, I obtained from an earlier, aborted attempt to install solr 6.2.1 directly on the HDP machine.  Out of the exploded gzipped-tarball, it is the ```solr-6.2.1/example/exampledocs``` folder.
+```
+bin/post -c KnoxIntegerationConfig /home/solr/exampledocs
+```
+
+## Querying the data
+ * Now you can see the data by visiting http://<HDP 2.4 Sandbox URL>:8983/solr/
+ * Query it by selecting a "core" from the drop down menu, selecting "Query" from the menu on the LHS and hit "Execute Query".
+ * You'll be able to see some data in the system!
+
+![Solr Query Result](/blog/img/SolrQueryResult.png)
+
+---
+
+ * John McParland (john.mcparland AT cgi.com / johmmcparland AT gmail.com)
+ * W 16th Nov 2016
