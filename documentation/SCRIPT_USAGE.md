@@ -63,4 +63,16 @@ to have the same commits as `upstream` (otherwise it always appears to be ahead)
 
  * See [resetOriginToUpstream.sh](resetOriginToUpstream.sh)
 
+## Solr Querying
+Wrapper round querying to Solr.  Builds up the URL for curl, based on a small number of mandatory options.
+
+ * See [solrQuery.sh](/solrQuery.sh)
+ * Mandatory options are
+   * `-c` (solr collection to query)
+   * `-q` (solr query type, e.g. ```select```)
+   * `-a` (solr query arguments e.g. `"q=*.*"`)
+ * Run `solrQuery.sh -h` for up-to-date options.  
+
+Example `solrQuery.sh -q select -a "q=*.*" -c "KnoxIntegrationConfig"`
+
 ---

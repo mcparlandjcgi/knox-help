@@ -236,6 +236,15 @@ This is nice, and there's a notable few points pertaining to Knox
       * ```<< query type >>``` - pass through from client calling Knox
       * ```<< query params >>``` - pass through from client calling Knox
       * Should probaby allow client calling Knox to specify if they want ```wt``` and ```indent``` and the appropriate values.
+
+## Query Wrapper Script
+
+ * See [solrQuery.sh](/solrQuery.sh) and [Script Usage](/documentation/SCRIPT_USAGE.md) on how to use a small wrapper script round querying Solr.
+
+An example:
+
+```./solrQuery.sh -q select -a "q=*.*" -c "KnoxIntegrationConfig"```
+
 ---
 
  * John McParland (john.mcparland AT cgi.com / johmmcparland AT gmail.com)
