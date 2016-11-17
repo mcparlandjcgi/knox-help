@@ -8,7 +8,7 @@ I focussed on
 
 and based it a lot around what [Kevin Risden](https://github.com/risdenk/knox_solr_testing) started.
 
-For this first part, I simply focussed on installing and configuring Solr, putting some data into it, and querying that data.
+For this first part, I simply focussed on installing and configuring Solr, putting some data into it, and querying that data via Solr directly.
 
 ## Installing
 To do the installation I used commands taken from

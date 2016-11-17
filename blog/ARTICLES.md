@@ -7,3 +7,4 @@
   * [Adding a Service - Open Weather Map Tutorial](/blog/KNOX_OPENWEATHER_MAP_TUTORIAL.md) - M 14th Nov 2016
   * Supporting Solr In Knox Series
     * [Part 1: Installation, Configuring, Ingestion and Querying](/blog/KNOX_SOLR_PART1.md) - W 16th Nov 2016
+    * [Part 2: Support Querying Solr via Knox](/blog/KNOX_SOLR_PART2.md) - F 18 Nov 2016
