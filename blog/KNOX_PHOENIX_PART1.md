@@ -9,13 +9,16 @@ using SQL syntax, allowing developers to re-use their knowledge of SQL.
  * As a system admin, allow me to secure access to Apache Phoenix with Apache Knox
  providing Authorization and Authentication.
 
+## Pre-Requisites
+ * Have [Kerberos](/blog/KERBEROS.md) enabled on your cluster.
+
 ## Installation/Configuring
 The following is a short step-by-step of the full instructions on [Installing Apache Phoenix in HDP 2.4](https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_installing_manually_book/content/ch_install_phoenix_chapter.html)
 
  1. `sudo yum install phoenix`
 
 That's all there is to installing, but configuring HBase is a more complex part.
-I choose to do this through Ambari *
+I choose to do this through Ambari.
 
  1. Login to Ambari as admin
  1. Choose Services -> HBase
@@ -29,6 +32,7 @@ I choose to do this through Ambari *
  1. Save the config changes.
  1. Restart HBase on each of Master, Region Server and Nodes (Ambari usually alerts you that this is needed).
 
-*[I had to reset the admin password first](http://hortonworks.com/hadoop-tutorial/learning-the-ropes-of-the-hortonworks-sandbox/#setup-ambari-admin-password)
-
 ----
+
+ * John McParland (john.mcparland AT cgi.com / johmmcparland AT gmail.com)
+ * Th 1st Dec 2016

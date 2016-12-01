@@ -27,7 +27,8 @@
 ----
 
 ## Support Phoenix in Knox
- * [Part 1: Installing, Configuring](/blog/KNOX_PHOENIX_PART1.md) - F 25 Nov 2016
+ * [Kerberos](/blog/KERBEROS.md) - Th 1 Dec 2016
+ * [Part 1: Installing, Configuring](/blog/KNOX_PHOENIX_PART1.md) - Th 1 Dec 2016
 
 <img src="http://phoenix.apache.org/images/phoenix-logo-small.png" alt="Apache Phoenix Logo" width="180px" />
 
