@@ -81,6 +81,16 @@ sudo kinit admin/admin
 Fun fact, I mis-spelled SAN**D**BOX.HORTONWORKS.COM as SANBOX.HORTONWORKS.COM (no **D**)
 and endured untold pain.
 
+## NOTE 2: Enabling Kerberos Stalling
+When Ambari was enabling Kerberos, the UI stalled for over an hour.
+
+After I killed the UI and logged in again, I found that Kerberos was enabled, but that the services hadn't been started up.
+
+Thus I had to manually start up the services.
+
+HOWEVER - please ensure you check the logs first to ensure it has finished kerberizing
+the environment.
+
 ---
 
  * John McParland (john.mcparland AT cgi.com / johmmcparland AT gmail.com)
