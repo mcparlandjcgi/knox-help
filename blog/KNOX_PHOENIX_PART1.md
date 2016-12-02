@@ -10,7 +10,8 @@ using SQL syntax, allowing developers to re-use their knowledge of SQL.
  providing Authorization and Authentication.
 
 ## Pre-Requisites
- * Have [Kerberos](/blog/KERBEROS.md) enabled on your cluster.
+ * You can choose to have [Kerberos](/blog/KERBEROS.md) enabled on your cluster.
+    * I didn't after many problems
 
 ## Installation/Configuring
 The following is a short step-by-step of the full instructions on [Installing Apache Phoenix in HDP 2.4](https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_installing_manually_book/content/ch_install_phoenix_chapter.html)
@@ -31,6 +32,17 @@ I choose to do this through Ambari.
  1. Modify (if necessary) `phoenix.functions.allowUserDefinedFunctions` to be `true`.
  1. Save the config changes.
  1. Restart HBase on each of Master, Region Server and Nodes (Ambari usually alerts you that this is needed).
+
+## Validating it works
+ 1. `su -l hbase`
+ 1. `cd /usr/hdp/current/phoenix-client/bin/`
+ 1. ```
+./psql.py \
+localhost:2181:/hbase-unsecure \
+/usr/hdp/current/phoenix-client/doc/examples/WEB_STAT.sql \
+/usr/hdp/current/phoenix-client/doc/examples/WEB_STAT.csv \
+/usr/hdp/current/phoenix-client/doc/examples/WEB_STAT_QUERIES.sql
+```
 
 ----
 
