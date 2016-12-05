@@ -36,7 +36,8 @@ I choose to do this through Ambari.
 ## Validating it works
  1. `su -l hbase`
  1. `cd /usr/hdp/current/phoenix-client/bin/`
- 1. ```
+ 1. Run the following to test Phoenix
+```
 ./psql.py \
 localhost:2181:/hbase-unsecure \
 /usr/hdp/current/phoenix-client/doc/examples/WEB_STAT.sql \
