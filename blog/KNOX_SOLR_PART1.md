@@ -27,11 +27,12 @@ Blow-by-blow, I executed the following on the HDP 2.4 sandbox
 Based around [LucidWorks HDP Search Installation Guide](https://doc.lucidworks.com/lucidworks-hdpsearch/2.3/Guide-Install.html) I did the following steps to configure Solr Cloud for the HDP 2.4 sandbox.
 
  * ```cd /opt/lucidworks-hdpsearch/solr/server/solr/configsets```
- * ```cp -r ample_techproducts_configs knox_integration_configs```
+ * ```cp -r sample_techproducts_configs knox_integration_configs```
  * ```cd knox_integration_configs/conf```
  * ```vi solrconfig.xml```
  * Replace the ```<directoryFactory>``` section with the following
- ```
+ 
+```
  <directoryFactory name="DirectoryFactory" class="solr.HdfsDirectoryFactory">
       <str name="solr.hdfs.home">hdfs://sandbox.hortonworks.com:8020/user/solr</str>
       <str name="solr.hdfs.confdir">/etc/hadoop/conf</str>
@@ -45,7 +46,8 @@ Based around [LucidWorks HDP Search Installation Guide](https://doc.lucidworks.c
       <int name="solr.hdfs.nrtcachingdirectory.maxcachedmb">192</int>
 </directoryFactory>
 ```
- * Key bits:
+
+* Key bits:
     * ```solr.hdfs.blockcache.direct.memory.allocation``` = ```false```
       * Avoids this Error
       ```
