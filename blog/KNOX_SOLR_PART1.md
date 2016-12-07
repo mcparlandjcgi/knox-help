@@ -83,9 +83,9 @@ bin/solr create -c KnoxIntegrationConfig \
 
 ## Ingesting data
  * There's clearly better ways to do this (e.g. via HDFS, which I think is the end-goal) but for now, I've used the [post tool](https://cwiki.apache.org/confluence/display/solr/Post+Tool).
- * First I moved over some example datasets, I obtained from an earlier, aborted attempt to install solr 6.2.1 directly on the HDP machine.  Out of the exploded gzipped-tarball, it is the ```solr-6.2.1/example/exampledocs``` folder.
+ * First I moved over some example datasets, I obtained from an earlier, aborted attempt to install solr 6.2.1 directly on the HDP machine and into /tmp/solr_exampledocs.  Out of the exploded gzipped-tarball, it is the ```solr-6.2.1/example/exampledocs``` folder.
 ```
-bin/post -c KnoxIntegerationConfig /home/solr/exampledocs
+bin/post -c KnoxIntegrationConfig /tmp/solr_exampledocs
 ```
 
 ## Querying the data via the UI
