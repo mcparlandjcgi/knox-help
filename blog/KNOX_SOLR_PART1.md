@@ -27,11 +27,11 @@ Blow-by-blow, I executed the following on the HDP 2.4 sandbox
 Based around [LucidWorks HDP Search Installation Guide](https://doc.lucidworks.com/lucidworks-hdpsearch/2.3/Guide-Install.html) I did the following steps to configure Solr Cloud for the HDP 2.4 sandbox.
 
  * ```cd /opt/lucidworks-hdpsearch/solr/server/solr/configsets```
- * ```cp -r sample_techproducts_configs knox_integration_configs```
- * ```cd knox_integration_configs/conf```
+ * ```cp -r sample_techproducts_configs example_collection_configs```
+ * ```cd example_collection_configs/conf```
  * ```vi solrconfig.xml```
  * Replace the ```<directoryFactory>``` section with the following
- 
+
 ```
  <directoryFactory name="DirectoryFactory" class="solr.HdfsDirectoryFactory">
       <str name="solr.hdfs.home">hdfs://sandbox.hortonworks.com:8020/user/solr</str>
@@ -49,9 +49,9 @@ Based around [LucidWorks HDP Search Installation Guide](https://doc.lucidworks.c
 
 * Key bits:
     * ```solr.hdfs.blockcache.direct.memory.allocation``` = ```false```
-      * Avoids this Error
+      * Avoids this (later) Error
       ```
-      ERROR: Failed to create collection 'KnoxIntegrationConfig' due to: org.apache.solr.client.solrj.impl.HttpSolrClient$RemoteSolrException:Error from server at http://172.18.0.5:8983/solr: Error CREATEing SolrCore 'KnoxIntegrationConfig_shard1_replica1': Unable to create core [KnoxIntegrationConfig_shard1_replica1] Caused by: Direct buffer memory
+      ERROR: Failed to create collection 'xxxx' due to: org.apache.solr.client.solrj.impl.HttpSolrClient$RemoteSolrException:Error from server at http://172.18.0.5:8983/solr: Error CREATEing SolrCore 'xxx_shard1_replica1': Unable to create core [xxx_shard1_replica1] Caused by: Direct buffer memory
       ```
     * ```solr.hdfs.home``` = ```hdfs://sandbox.hortonworks.com:8020/user/solr``` as that's the hostname / port for HDFS on the Hortonworks Sandbox
 
@@ -70,13 +70,17 @@ bin/solr start -c \
   * NOTE: ```-z``` points to Zookeeper on the sandbox.
   * NOTE: ```solr.hdfs.home``` is set to what we put in the ```directoryFactory``` earlier.
   * NOTE: ```-m``` avoids this error
+```
+ERROR: Failed to create collection 'ExampleCollection' due to: org.apache.solr.client.solrj.impl.HttpSolrClient$RemoteSolrException:Error from server at http://172.18.0.6:8983/solr: Error CREATEing SolrCore 'ExampleCollection_shard1_replica2': Unable to create core [ExampleCollection_shard1_replica2] Caused by: Java heap space
+```
+
 
 ## Create a Collection
- * Create a collection with the knox integration configset.
+ * Create a collection with the example collection configset.
 ```
-bin/solr create -c KnoxIntegrationConfig \
- -d knox_integration_configs \
- -n knoxIntegrationConfigs \
+bin/solr create -c ExampleCollection \
+ -d example_collection_configs \
+ -n exampleCollectionConfigs \
  -s 2 \
  -rf 2
 ```
@@ -85,7 +89,7 @@ bin/solr create -c KnoxIntegrationConfig \
  * There's clearly better ways to do this (e.g. via HDFS, which I think is the end-goal) but for now, I've used the [post tool](https://cwiki.apache.org/confluence/display/solr/Post+Tool).
  * First I moved over some example datasets, I obtained from an earlier, aborted attempt to install solr 6.2.1 directly on the HDP machine and into /tmp/solr_exampledocs.  Out of the exploded gzipped-tarball, it is the ```solr-6.2.1/example/exampledocs``` folder.
 ```
-bin/post -c KnoxIntegrationConfig /tmp/solr_exampledocs
+bin/post -c ExampleCollection /tmp/solr_exampledocs
 ```
 
 ## Querying the data via the UI
@@ -99,7 +103,7 @@ bin/post -c KnoxIntegrationConfig /tmp/solr_exampledocs
 Clearly going via the Solr UI isn't the right thing for what we need with Knox.  For Knox, we need to query it in a RESTful API fashion.
 
 ```
-curl "http://<< external hdp 2.4 sandbox ip/name >>:8983/solr/KnoxIntegrationConfig_shard1_replica1/select?q=*%3A*&wt=json&indent=true"
+curl "http://<< external hdp 2.4 sandbox ip/name >>:8983/solr/ExampleCollection_shard1_replica1/select?q=*%3A*&wt=json&indent=true"
 ```
 
 Returned
@@ -245,7 +249,7 @@ This is nice, and there's a notable few points pertaining to Knox
 
 An example:
 
-```./solrQuery.sh -q select -a "q=*.*" -c "KnoxIntegrationConfig"```
+```./solrQuery.sh -q select -a "q=*.*" -c "ExampleCollection"```
 
 ---
 

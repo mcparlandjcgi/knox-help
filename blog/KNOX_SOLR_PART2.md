@@ -49,7 +49,7 @@ For this first part, I've focussed on adding the ability to query Solr via Knox 
 Key points
  * ```<route path="/solr/**/**?**">```
    * Matches incoming URLs starting with:  ```/solr```
-   * Then captures the collection to search (e.g. KnoxIntegrationConfig): ```/**/```
+   * Then captures the collection to search (e.g. ExampleCollection): ```/**/```
    * Then the query type (e.g. ```select```): ```**```
    * Then the query parameters separator: ```?```
    * Finally the query parameters themselves are captured: ```**```
@@ -97,7 +97,7 @@ Key points
    * Then on ip/name then colon port: ```*:*```
    * Then on multiple path elements in the URL (e.g. `gateway/sandbox`): `**`
    * Then on `/solr/`
-   * Next it takes multiple patch elements (e.g. KnoxIntegtationConfig), and assigns them to the variable called `collection`: `{collection=**}`
+   * Next it takes multiple patch elements (e.g. ExampleCollection), and assigns them to the variable called `collection`: `{collection=**}`
    * Next it takes multiple path elements (e.g. `select`), and assigns it to the variable called `query`: `{query=**}`
    * Next it matches the question mark argument separator: `?`
    * Finally it matches all of the query arguments (zero or more): `{**}`
@@ -138,13 +138,13 @@ Key point
  * Execute the following
 
 ```
-curl -k -v -u guest:guest-password -X GET "http://${KNOX_HDP}:8443/gateway/sandbox/solr/KnoxIntegrationConfig/select?q=*.*&wt=json&indent=true"
+curl -k -v -u guest:guest-password -X GET "http://${KNOX_HDP}:8443/gateway/sandbox/solr/ExampleCollection/select?q=*.*&wt=json&indent=true"
 ```
 
 Compare with
 
 ```
- curl -X GET "http://${KNOX_HDP}:8983/solr/KnoxIntegrationConfig/select?q=*.*&wt=json&indent=true"
+ curl -X GET "http://${KNOX_HDP}:8983/solr/ExampleCollection/select?q=*.*&wt=json&indent=true"
  ```
 
 ## Key Learning
