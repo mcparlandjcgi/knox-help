@@ -42,6 +42,7 @@ I had to [set the admin password](http://hortonworks.com/hadoop-tutorial/learnin
 ```
 
    * Create the Kerberos Database: `sudo kdb5_util create -s`
+   * When prompted for a password just leave blank and press ENTER.
    * Start the Kerberos KDC Server/Admin:
 
 ```
@@ -55,14 +56,15 @@ sudo chkconfig krb5kdc on
 sudo chkconfig kadmin on
 ```
  * Create a KDC Admin: `sudo kadmin.local -q "addprinc admin/admin"`
+   * When prompted enter password as `admin`
  * Add an entry to the config for your realm: `sudo vi /var/kerberos/krb5kdc/kadm5.acl`
  ```
  */admin@SANBOX.HORTONWORKS.COM     *
  ```
   * Restart KDC Server/Admin:
 ```
-  sudo /etc/rc.d/init.d/krb5kdc start
-  sudo /etc/rc.d/init.d/kadmin start
+  sudo /etc/rc.d/init.d/krb5kdc restart
+  sudo /etc/rc.d/init.d/kadmin restart
 ```
 
  * Initialize Tickets:
@@ -71,6 +73,40 @@ sudo kinit admin/admin
 ```
  * Restart Ambari: `sudo ambari-server restart`
 
+## Activating Kerberos on Knox (in progress step - success yet to be verified)
+
+https://knox.apache.org/books/knox-0-11-0/user-guide.html#Secure+Clusters
+
+Create knox user
+* `useradd -g hadoop knox`
+
+As `root` on the server:
+1. Run `kadmin.local` to initialise an interactive session
+1. In the session run these commands:
+  * `add_principal -randkey knox/knox@EXAMPLE.COM`
+  * `ktadd -k knox.service.keytab -norandkey knox/knox@EXAMPLE.COM`
+  * `exit`
+1. Copy the `knox.service.keytab` to the knox host:
+```
+chown knox:knox knox.service.keytab
+chmod 400 knox.service.keytab
+cp knox.service.keytab /usr/hdp/current/knox-server/conf
+```
+1. Copy the `krb5.conf` template:
+```
+cp /usr/hdp/current/knox-server/templates/krb5.conf /usr/hdp/current/knox-server/conf
+sed -i s/hello\.hortonworks\.com/sandbox\.hortonworks\.com/g /usr/hdp/current/knox-server/conf/krb5.conf
+chown knox:knox /usr/hdp/current/knox-server/conf/krb5.conf
+```
+1. Copy the `krb5JAASLogin.conf` template:
+```
+cp /usr/hdp/current/knox-server/templates/krb5JAASLogin.conf /usr/hdp/current/knox-server/conf
+chown knox:knox /usr/hdp/current/knox-server/conf/krb5JAASLogin.conf
+```
+1. Update `gateway-site.xml`:
+  * Run `vi /usr/hdp/current/knox-server/conf/gateway-site.xml`
+  * Edit the value of `gateway.hadoop.kerberos.secured` to `true`
+1. Restart Knox
 
 ## Enabling Kerberos Security
  * I had the Unlimited Strength JCE already installed on the Azure based HDP 2.4 sandbox, so I did not need to follow [Installing the JCE](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_installing_the_jce.html) - but you should [check](http://derjan.io/blog/2013/03/15/nevermind-jce-unlimited-strength-use-openjdk/).
