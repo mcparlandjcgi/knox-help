@@ -73,6 +73,11 @@ sudo kinit admin/admin
 ```
  * Restart Ambari: `sudo ambari-server restart`
 
+## Enabling Kerberos Security
+ * I had the Unlimited Strength JCE already installed on the Azure based HDP 2.4 sandbox, so I did not need to follow [Installing the JCE](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_installing_the_jce.html) - but you should [check](http://derjan.io/blog/2013/03/15/nevermind-jce-unlimited-strength-use-openjdk/).
+ * I just used the [DEFAULT](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/create_mappings_betw_principals_and_unix_usernames.html) mappings between principals and unix usernames.
+ * Finally I followed the [automated Kerboros Wizard](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_launching_the_kerberos_wizard_automated_setup.html)
+
 ## Activating Kerberos on Knox (in progress step - success yet to be verified)
 
 https://knox.apache.org/books/knox-0-11-0/user-guide.html#Secure+Clusters
@@ -107,11 +112,6 @@ chown knox:knox /usr/hdp/current/knox-server/conf/krb5JAASLogin.conf
   * Run `vi /usr/hdp/current/knox-server/conf/gateway-site.xml`
   * Edit the value of `gateway.hadoop.kerberos.secured` to `true`
 1. Restart Knox
-
-## Enabling Kerberos Security
- * I had the Unlimited Strength JCE already installed on the Azure based HDP 2.4 sandbox, so I did not need to follow [Installing the JCE](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_installing_the_jce.html) - but you should [check](http://derjan.io/blog/2013/03/15/nevermind-jce-unlimited-strength-use-openjdk/).
- * I just used the [DEFAULT](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/create_mappings_betw_principals_and_unix_usernames.html) mappings between principals and unix usernames.
- * Finally I followed the [automated Kerboros Wizard](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_launching_the_kerberos_wizard_automated_setup.html)
 
 ## NOTE: Spelling
 Fun fact, I mis-spelled SAN**D**BOX.HORTONWORKS.COM as SANBOX.HORTONWORKS.COM (no **D**)
