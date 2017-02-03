@@ -78,36 +78,61 @@ sudo kinit admin/admin
  * I just used the [DEFAULT](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/create_mappings_betw_principals_and_unix_usernames.html) mappings between principals and unix usernames.
  * Finally I followed the [automated Kerboros Wizard](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_launching_the_kerberos_wizard_automated_setup.html)
 
+## Verifying Kerberos has been set up
+
+The following curl command should now fail with a HTTP 401 error because the HDFS server requires authentication:
+```
+curl -i "http://sandbox:50070/webhdfs/v1/tmp?op=LISTSTATUS"
+```
+
+Steps to do a curl request to HDFS with Kerberos auth:
+
+1. Log in as yourself on the server
+1. Run the command `kinit admin/admin@EXAMPLE.COM`
+  * Password should be `admin` if the steps from the first section of this document were followed.
+1. Run the new curl command:
+  ```
+  curl -i --negotiate -u : "http://sandbox:50070/webhdfs/v1/tmp?op=LISTSTATUS"
+  ```
+1. Authentication should now pass and the headers should include a property like:
+
+  > Set-Cookie: hadoop.auth="u=admin&p=admin/admin@EXAMPLE.COM&t=kerberos&e=1486148110150&s=U/S7vlnp8YxdK+culkvBYcKi5sQ="; Path=/; HttpOnly
+
 ## Activating Kerberos on Knox (in progress step - success yet to be verified)
 
 https://knox.apache.org/books/knox-0-11-0/user-guide.html#Secure+Clusters
 
 Create knox user
+
 * `useradd -g hadoop knox`
 
 As `root` on the server:
+
 1. Run `kadmin.local` to initialise an interactive session
 1. In the session run these commands:
   * `add_principal -randkey knox/knox@EXAMPLE.COM`
   * `ktadd -k knox.service.keytab -norandkey knox/knox@EXAMPLE.COM`
   * `exit`
 1. Copy the `knox.service.keytab` to the knox host:
-```
-chown knox:knox knox.service.keytab
-chmod 400 knox.service.keytab
-cp knox.service.keytab /usr/hdp/current/knox-server/conf
-```
+  ```
+  chown knox:knox knox.service.keytab
+  chmod 400 knox.service.keytab
+  cp knox.service.keytab /usr/hdp/current/knox-server/conf
+  ```
+
 1. Copy the `krb5.conf` template:
-```
-cp /usr/hdp/current/knox-server/templates/krb5.conf /usr/hdp/current/knox-server/conf
-sed -i s/hello\.hortonworks\.com/sandbox\.hortonworks\.com/g /usr/hdp/current/knox-server/conf/krb5.conf
-chown knox:knox /usr/hdp/current/knox-server/conf/krb5.conf
-```
+  ```
+  cp /usr/hdp/current/knox-server/templates/krb5.conf /usr/hdp/current/knox-server/conf
+  sed -i s/hello\.hortonworks\.com/sandbox\.hortonworks\.com/g /usr/hdp/current/knox-server/conf/krb5.conf
+  chown knox:knox /usr/hdp/current/knox-server/conf/krb5.conf
+  ```
+
 1. Copy the `krb5JAASLogin.conf` template:
-```
-cp /usr/hdp/current/knox-server/templates/krb5JAASLogin.conf /usr/hdp/current/knox-server/conf
-chown knox:knox /usr/hdp/current/knox-server/conf/krb5JAASLogin.conf
-```
+  ```
+  cp /usr/hdp/current/knox-server/templates/krb5JAASLogin.conf /usr/hdp/current/knox-server/conf
+  chown knox:knox /usr/hdp/current/knox-server/conf/krb5JAASLogin.conf
+  ```
+
 1. Update `gateway-site.xml`:
   * Run `vi /usr/hdp/current/knox-server/conf/gateway-site.xml`
   * Edit the value of `gateway.hadoop.kerberos.secured` to `true`
