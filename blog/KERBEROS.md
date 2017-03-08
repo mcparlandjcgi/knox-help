@@ -14,7 +14,7 @@ I had to [set the admin password](http://hortonworks.com/hadoop-tutorial/learnin
 [libdefaults]
   renew_lifetime = 7d
   forwardable = true
-  default_realm = SANBOX.HORTONWORKS.COM
+  default_realm = EXAMPLE.COM
   ticket_lifetime = 24h
   dns_lookup_realm = false
   dns_lookup_kdc = false
@@ -23,10 +23,7 @@ I had to [set the admin password](http://hortonworks.com/hadoop-tutorial/learnin
 
 [domain_realm]
 
-  sandbox.hortonworks.com = SANBOX.HORTONWORKS.COM
-
-   .sandbox.hortonworks.com = SANBOX.HORTONWORKS.COM
-
+  sandbox.hortonworks.com = EXAMPLE.COM
 
 [logging]
   default = FILE:/var/log/krb5kdc.log
@@ -34,7 +31,7 @@ I had to [set the admin password](http://hortonworks.com/hadoop-tutorial/learnin
   kdc = FILE:/var/log/krb5kdc.log
 
 [realms]
-  SANBOX.HORTONWORKS.COM = {
+  EXAMPLE.COM = {
     admin_server = sandbox.hortonworks.com
     kdc = sandbox.hortonworks.com
   }
@@ -57,11 +54,7 @@ sudo chkconfig kadmin on
 ```
  * Create a KDC Admin: `sudo kadmin.local -q "addprinc admin/admin"`
    * When prompted enter password as `admin`
- * Add an entry to the config for your realm: `sudo vi /var/kerberos/krb5kdc/kadm5.acl`
- ```
- */admin@SANBOX.HORTONWORKS.COM     *
- ```
-  * Restart KDC Server/Admin:
+ * Restart KDC Server/Admin:
 ```
   sudo /etc/rc.d/init.d/krb5kdc restart
   sudo /etc/rc.d/init.d/kadmin restart
@@ -102,7 +95,7 @@ Steps to do a curl request to HDFS with Kerberos auth:
 
 This step requires modifying the config files in your Knox directory.
 
-1. `cd /usr/hdp/current/knox-server/conf` (please ensure hdp-select shows the right version of Knox)
+1. `cd /usr/hdp/current/knox-server/conf` (please ensure `hdp-select` shows the right version of Knox)
 1. Create ethe file `krb5.conf`:
 
   ```
