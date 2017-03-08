@@ -98,44 +98,73 @@ Steps to do a curl request to HDFS with Kerberos auth:
 
   > Set-Cookie: hadoop.auth="u=admin&p=admin/admin@EXAMPLE.COM&t=kerberos&e=1486148110150&s=U/S7vlnp8YxdK+culkvBYcKi5sQ="; Path=/; HttpOnly
 
-## Activating Kerberos on Knox (in progress step - success yet to be verified)
+## Activating Kerberos on Knox
 
-https://knox.apache.org/books/knox-0-11-0/user-guide.html#Secure+Clusters
+This step requires modifying the config files in your Knox directory.
 
-Create knox user
+1. `cd /usr/hdp/current/knox-server/conf` (please ensure hdp-select shows the right version of Knox)
+1. Create ethe file `krb5.conf`:
 
-* `useradd -g hadoop knox`
-
-As `root` on the server:
-
-1. Run `kadmin.local` to initialise an interactive session
-1. In the session run these commands:
-  * `add_principal -randkey knox/knox@EXAMPLE.COM`
-  * `ktadd -k knox.service.keytab -norandkey knox/knox@EXAMPLE.COM`
-  * `exit`
-1. Copy the `knox.service.keytab` to the knox host:
   ```
-  chown knox:knox knox.service.keytab
-  chmod 400 knox.service.keytab
-  cp knox.service.keytab /usr/hdp/current/knox-server/conf
-  ```
+  [logging]
+   default = FILE:/var/log/krb5libs.log
+   kdc = FILE:/var/log/krb5kdc.log
+   admin_server = FILE:/var/log/kadmind.log
 
-1. Copy the `krb5.conf` template:
-  ```
-  cp /usr/hdp/current/knox-server/templates/krb5.conf /usr/hdp/current/knox-server/conf
-  sed -i s/hello\.hortonworks\.com/sandbox\.hortonworks\.com/g /usr/hdp/current/knox-server/conf/krb5.conf
-  chown knox:knox /usr/hdp/current/knox-server/conf/krb5.conf
-  ```
+  [libdefaults]
+   default_realm = EXAMPLE.COM
+   dns_lookup_realm = false
+   dns_lookup_kdc = false
+   ticket_lifetime = 24h
+   renew_lifetime = 7d
+   forwardable = true
 
-1. Copy the `krb5JAASLogin.conf` template:
-  ```
-  cp /usr/hdp/current/knox-server/templates/krb5JAASLogin.conf /usr/hdp/current/knox-server/conf
-  chown knox:knox /usr/hdp/current/knox-server/conf/krb5JAASLogin.conf
+  [realms]
+   EXAMPLE.COM = {
+    kdc = sandbox.hortonworks.com
+    admin_server = sandbox.hortonworks.com
+   }
+
+  [domain_realm]
+   sandbox.hortonworks.com = EXAMPLE.COM
   ```
 
-1. Update `gateway-site.xml`:
-  * Run `vi /usr/hdp/current/knox-server/conf/gateway-site.xml`
-  * Edit the value of `gateway.hadoop.kerberos.secured` to `true`
+1. Create the file `krb5JAASLogin.conf`:
+
+  ```
+  com.sun.security.jgss.initiate {
+    com.sun.security.auth.module.Krb5LoginModule required 
+    renewTGT=true
+    doNotPrompt=true
+    useKeyTab=true
+    keyTab="/etc/security/keytabs/knox.service.keytab"
+    principal="knox/sandbox.hortonworks.com@EXAMPLE.COM"
+    isInitiator=true
+    storeKey=true
+    useTicketCache=true
+    client=true;
+  };
+  ```
+
+1. `gateway-site.xml` will require three of the properties are updated to match the following:
+
+  ```
+  <property>
+      <name>gateway.hadoop.kerberos.secured</name>
+      <value>true</value>
+  </property>
+
+  <property>
+      <name>java.security.krb5.conf</name>
+      <value>/usr/hdp/current/knox-server/conf/krb5.conf</value>
+  </property>
+
+  <property>
+      <name>java.security.auth.login.config</name>
+      <value>/usr/hdp/current/knox-server/conf/krb5JAASLogin.conf</value>
+  </property>
+  ```
+
 1. Restart Knox
 
 ## NOTE: Spelling
