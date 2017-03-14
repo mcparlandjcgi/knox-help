@@ -76,6 +76,12 @@ I had to [set the admin password](http://hortonworks.com/hadoop-tutorial/learnin
 * I had the Unlimited Strength JCE already installed on the Azure based HDP 2.4 sandbox, so I did not need to follow [Installing the JCE](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_installing_the_jce.html) - but you should [check](http://derjan.io/blog/2013/03/15/nevermind-jce-unlimited-strength-use-openjdk/).
 * I just used the [DEFAULT](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/create_mappings_betw_principals_and_unix_usernames.html) mappings between principals and unix usernames.
 * Finally I followed the [automated Kerboros Wizard](http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.4.3/bk_Security_Guide/content/_launching_the_kerberos_wizard_automated_setup.html)
+  * **Important**: there is a bug in HDP 2.5 that will cause the wizard to fail. The set up will delete the files required for the install so we have to make those files immutable first:
+  
+    ```
+    yum install e2fsprogs
+    chattr +i /var/lib/ambari-agent/cache/common-services/KERBEROS/1.10.3-10/package/scripts/*
+    ```
 
 ## Verifying Kerberos has been set up
 
