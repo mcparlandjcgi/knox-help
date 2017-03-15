@@ -12,21 +12,20 @@ Useful links:
 
 In order for Java to successfully connect with JDBC over an SSL connection the `cacerts` need to be updated with the HDP SSL certificate.
 
-1. Visit https://hdp24sandbox-v2.ukwest.cloudapp.azure.com:8443/ and download the SSL certificate
-  * Name it `hdp24sandbox-v2.ukwest.cloudapp.azure.com.crt`
+1. Visit https://xxx.cloudapp.azure.com:8443/ on Firefox. Confirm the security exception and get to the 404 error page. Then click the padlock in the url to find your way to "More Inforation", "View Certificate", "Details" and then "Export". Save the vertificate as `localhost.crt.
 1. Copy the certificate to the server
-  * `scp ~/Downloads/hdp24sandbox-v2.ukwest.cloudapp.azure.com.crt hdp24sandbox-v2.ukwest.cloudapp.azure.com:/home/${USER}/`
+  * `scp -P 2222 ~/Downloads/localhost.crt root@localhost:/root`
 1. As `root` user
 ```
-keytool -importcert -keystore /etc/pki/java/cacerts -storepass changeit -alias hdp24sandbox-v2 -file /home/${SUDO_USER}/hdp24sandbox-v2.ukwest.cloudapp.azure.com.crt
+keytool -importcert -keystore /etc/pki/java/cacerts -storepass changeit -alias localhost -file ~/localhost.crt
 ```
 1. Verify it worked
 ```
-keytool -list -keystore /etc/pki/java/cacerts -alias hdp24sandbox-v2
+keytool -list -keystore /etc/pki/java/cacerts -alias localhost
 ```
   * Should output something like:
 ```
-hdp24sandbox-v2, Jan 25, 2017, trustedCertEntry,
+localhost, Jan 25, 2017, trustedCertEntry,
 Certificate fingerprint (SHA1): B6:F1:53:11:D0:BA:4D:52:B7:76:73:D7:58:13:EA:56:D8:05:CE:44
 ```
 
@@ -40,14 +39,14 @@ git clone https://github.com/mcparlandjcgi/phoenix-knox-jdbc.git
   * Ensure you change the `<username>` to your own.
 1. It will be easiest to build this locally (for development on the repo) then push the compiled jar to the server. Clone the repo on your own machine and build it with `mvn package`. Then it can be uploaded to the server:
 ```
-scp target/phoenixjdbc-1.0-SNAPSHOT.jar hdp24sandbox-v2.ukwest.cloudapp.azure.com:/home/${USER}/
+scp -p 2222 target/phoenixjdbc-1.0-SNAPSHOT.jar root@localhost:/root
 ```
 1. As `root` on the server you can modify the config file for the app:
   * `vi /usr/phoenixjdbc/config.properties`
   * Here you can modify the JDBC URL used for the connection.
-1. To run the app (as yourself):
+1. To run the app:
 ```
-~/phoenix-knox-jdbc/run_phoenixjdbc.sh
+/root/phoenix-knox-jdbc/run_phoenixjdbc.sh
 ```
 
 Possible JDBC URLs:
